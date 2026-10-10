@@ -30,7 +30,7 @@
   <aside class="companion" aria-label="Interactive robotic dog">
     <button class="dog-button" id="dog-button" aria-label="Say hello to K-01, the robot dog" title="Give K-01 a little hello">
       <svg class="dog" viewBox="0 0 160 140" fill="none" aria-hidden="true">
-        <defs><linearGradient id="shell" x1="50" y1="20" x2="110" y2="110" gradientUnits="userSpaceOnUse"><stop stop-color="#fcfcf7"/><stop offset="1" stop-color="#b4b5ad"/></linearGradient><linearGradient id="visor" x1="40" y1="38" x2="114" y2="83"><stop stop-color="#32382f"/><stop offset="1" stop-color="#121710"/></linearGradient></defs>
+        <defs><linearGradient id="shell" x1="50" y1="20" x2="110" y2="110" gradientUnits="userSpaceOnUse"><stop stop-color="#fcfcf7"/><stop offset="1" stop-color="#b4b5ad"/></linearGradient><linearGradient id="visor" x1="40" y1="38" x2="114" y2="83"><stop stop-color="#32382f"/><stop offset="1" stop-color="#121710"/></linearGradient><clipPath id="left-eye"><rect x="47" y="47" width="25" height="26" rx="10"/></clipPath><clipPath id="right-eye"><rect x="83" y="47" width="25" height="26" rx="10"/></clipPath></defs>
         <ellipse cx="80" cy="127" rx="44" ry="5" fill="#1d2518" opacity=".12"/>
         <g class="dog-body"><path class="dog-tail" d="M109 85Q134 74 133 62" stroke="#292f28" stroke-width="7" stroke-linecap="round"/>
         <path d="M50 92L46 114L54 122" stroke="#5b6057" stroke-width="9" stroke-linecap="round"/><path d="M104 92L113 113L106 122" stroke="#5b6057" stroke-width="9" stroke-linecap="round"/>
@@ -38,13 +38,18 @@
         <circle cx="59" cy="94" r="7" fill="#697060"/><circle cx="97" cy="94" r="7" fill="#697060"/><circle cx="59" cy="94" r="3" fill="#e79c35"/><circle cx="97" cy="94" r="3" fill="#e79c35"/>
         <g class="dog-head"><path d="M41 46L36 15L56 36M101 36L123 15L116 52" fill="#252c22" stroke="#727967" stroke-width="3" stroke-linejoin="round"/>
         <rect x="34" y="34" width="88" height="56" rx="21" fill="url(#shell)" stroke="#858c7b"/><rect x="41" y="43" width="74" height="35" rx="13" fill="url(#visor)"/>
-        <g class="dog-eyes"><rect class="pupil" x="57" y="51" width="10" height="17" rx="5" fill="#d2ff7c"/><rect class="pupil" x="89" y="51" width="10" height="17" rx="5" fill="#d2ff7c"/></g>
+        <g class="dog-eyes">
+          <rect class="eye-screen" x="47" y="47" width="25" height="26" rx="10" fill="#d2ff7c"/>
+          <rect class="eye-screen" x="83" y="47" width="25" height="26" rx="10" fill="#d2ff7c"/>
+          <g clip-path="url(#left-eye)"><g class="pupil"><ellipse cx="59.5" cy="60" rx="6.5" ry="8" fill="#162610"/><circle cx="57.5" cy="57" r="2" fill="#f7ffe5"/></g></g>
+          <g clip-path="url(#right-eye)"><g class="pupil"><ellipse cx="95.5" cy="60" rx="6.5" ry="8" fill="#162610"/><circle cx="93.5" cy="57" r="2" fill="#f7ffe5"/></g></g>
+        </g>
         <path d="M73 81H83" stroke="#747b6c" stroke-width="2" stroke-linecap="round"/><circle cx="111" cy="80" r="2" fill="#e86633"/>
         </g></g>
       </svg>
       <span class="dog-label mono"><span class="status-dot"></span>K-01 <span id="dog-status">ONLINE</span></span>
     </button>
-    <span class="dog-hint" id="dog-hint">Psst. I can see your cursor.</span>
+    <span class="dog-hint" id="dog-hint">Move your cursor. I'll follow.</span>
   </aside>
 
   <main id="main">

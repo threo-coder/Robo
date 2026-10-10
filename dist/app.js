@@ -170,42 +170,66 @@ document.addEventListener('keydown', event => { if (event.key === 'Escape') clos
 
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 let motion = !reducedMotion.matches;
-let framePending = false;
-let lastPointer = null;
+let gazeFrame = 0;
+const gaze = { x: 0, y: 0 };
+const targetGaze = { x: 0, y: 0 };
+const pupils = $$('.pupil');
+const dogHead = $('.dog-head');
+const dogStatus = $('#dog-status');
 let greetTimer;
+function drawGaze() {
+  pupils.forEach(pupil => pupil.style.transform = `translate(${gaze.x.toFixed(2)}px,${gaze.y.toFixed(2)}px)`);
+  dogHead.style.transform = `translate(${(gaze.x * .25).toFixed(2)}px,${(gaze.y * .2).toFixed(2)}px) rotate(${(gaze.x * .9).toFixed(2)}deg)`;
+}
+function animateGaze() {
+  gazeFrame = 0;
+  if (!motion) return;
+  gaze.x += (targetGaze.x - gaze.x) * .2;
+  gaze.y += (targetGaze.y - gaze.y) * .2;
+  drawGaze();
+  if (Math.abs(targetGaze.x - gaze.x) + Math.abs(targetGaze.y - gaze.y) > .02) gazeFrame = requestAnimationFrame(animateGaze);
+}
+function moveGaze(x, y) {
+  targetGaze.x = x;
+  targetGaze.y = y;
+  if (motion && !gazeFrame) gazeFrame = requestAnimationFrame(animateGaze);
+}
 function setMotion(enabled) {
   motion = enabled;
   document.body.classList.toggle('motion-off', !enabled);
   $('#motion-toggle').textContent = `MOTION: ${enabled ? 'ON' : 'OFF'}`;
   $('#motion-toggle').setAttribute('aria-pressed', String(!enabled));
-  if (!enabled) { $$('.pupil').forEach(pupil => pupil.style.transform = ''); $('.dog-head').style.transform = ''; }
+  dogStatus.textContent = enabled ? 'ONLINE' : 'RESTING';
+  if (!enabled) {
+    cancelAnimationFrame(gazeFrame);
+    gazeFrame = 0;
+    gaze.x = gaze.y = targetGaze.x = targetGaze.y = 0;
+    drawGaze();
+  }
 }
 setMotion(motion);
 reducedMotion.addEventListener('change', event => setMotion(!event.matches));
 $('#motion-toggle').addEventListener('click', () => setMotion(!motion));
-document.addEventListener('pointermove', event => {
-  if (!motion || event.pointerType === 'touch') return;
-  lastPointer = { x: event.clientX, y: event.clientY };
-  if (framePending) return;
-  framePending = true;
-  requestAnimationFrame(() => {
-    framePending = false;
-    if (!motion || !lastPointer) return;
-    const box = $('.dog').getBoundingClientRect();
-    const dx = lastPointer.x - (box.left + box.width / 2);
-    const dy = lastPointer.y - (box.top + box.height * .43);
-    const distance = Math.max(1, Math.hypot(dx, dy));
-    const strength = Math.min(1, distance / 180);
-    const x = dx / distance * 5 * strength;
-    const y = dy / distance * 3.5 * strength;
-    $$('.pupil').forEach(pupil => pupil.style.transform = `translate(${x}px,${y}px)`);
-    $('.dog-head').style.transform = `rotate(${x * .8}deg)`;
-  });
-}, { passive: true });
+function followPointer(event) {
+  if (!motion) return;
+  const box = $('.dog').getBoundingClientRect();
+  const originX = box.left + box.width * .49;
+  const originY = box.top + box.height * .43;
+  const dx = event.clientX - originX;
+  const dy = event.clientY - originY;
+  // Scale by the space on each side, keeping gaze responsive across the entire page.
+  const spanX = dx < 0 ? originX : innerWidth - originX;
+  const spanY = dy < 0 ? originY : innerHeight - originY;
+  const x = Math.max(-1, Math.min(1, dx / Math.max(1, spanX))) * 7;
+  const y = Math.max(-1, Math.min(1, dy / Math.max(1, spanY))) * 5;
+  moveGaze(x, y);
+  if (!$('.companion').classList.contains('greeting')) dogStatus.textContent = 'TRACKING';
+}
+document.addEventListener('pointermove', followPointer, { passive: true });
+document.addEventListener('pointerdown', followPointer, { passive: true });
 document.documentElement.addEventListener('pointerleave', () => {
-  lastPointer = null;
-  $$('.pupil').forEach(pupil => pupil.style.transform = '');
-  $('.dog-head').style.transform = '';
+  moveGaze(0, 0);
+  if (!$('.companion').classList.contains('greeting')) dogStatus.textContent = motion ? 'ONLINE' : 'RESTING';
 });
 $('#dog-button').addEventListener('click', () => {
   clearTimeout(greetTimer);
@@ -215,8 +239,8 @@ $('#dog-button').addEventListener('click', () => {
   $('#dog-hint').textContent = 'Big ideas? You came to the right place.';
   greetTimer = setTimeout(() => {
     $('.companion').classList.remove('greeting');
-    $('#dog-status').textContent = 'ONLINE';
-    $('#dog-hint').textContent = 'Psst. I can see your cursor.';
+    $('#dog-status').textContent = motion ? 'ONLINE' : 'RESTING';
+    $('#dog-hint').textContent = "Move your cursor. I'll follow.";
   }, 2800);
 });
 

@@ -71,6 +71,9 @@ try {
   await page.locator('#motion-toggle').click();
   assert.equal(await page.locator('#motion-toggle').innerText(), 'MOTION: OFF');
 
+  await page.reload({ waitUntil: 'networkidle' });
+  await page.evaluate(async () => { await Promise.all([...document.images].map(image => { image.loading = 'eager'; return image.decode(); })); });
+
   for (const width of [1440, 1024, 768, 600, 390, 360, 320]) {
     await page.setViewportSize({ width, height: 900 });
     await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
@@ -86,7 +89,7 @@ try {
     }
   }
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  assert.equal(await page.locator('#motion-toggle').innerText(), 'MOTION: OFF');
+  await expect(page.locator('#motion-toggle')).toHaveText('MOTION: OFF');
   assert.equal(await page.locator('.dog-body').evaluate(node => getComputedStyle(node).animationName), 'none');
   assert.deepEqual(errors, []);
   console.log('PASS: desktop/mobile rendering, all calculators, invalid inputs, six sectors, keyboard tabs, eye tracking, greeting, motion preference, email draft, clipboard and brief download.');
