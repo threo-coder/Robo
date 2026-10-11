@@ -1,0 +1,414 @@
+{
+  "validator": "Khronos glTF Validator",
+  "version": "2.0.0-dev.3.10",
+  "files": [
+    {
+      "file": "go2-seated.gltf",
+      "issues": {
+        "numErrors": 0,
+        "numWarnings": 0,
+        "numInfos": 43,
+        "numHints": 0,
+        "messages": [
+          {
+            "code": "NODE_MATRIX_DEFAULT",
+            "message": "Do not specify default transform matrix.",
+            "severity": 2,
+            "pointer": "/nodes/44/matrix"
+          },
+          {
+            "code": "NODE_MATRIX_DEFAULT",
+            "message": "Do not specify default transform matrix.",
+            "severity": 2,
+            "pointer": "/nodes/45/matrix"
+          },
+          {
+            "code": "NODE_MATRIX_DEFAULT",
+            "message": "Do not specify default transform matrix.",
+            "severity": 2,
+            "pointer": "/nodes/46/matrix"
+          },
+          {
+            "code": "NODE_MATRIX_DEFAULT",
+            "message": "Do not specify default transform matrix.",
+            "severity": 2,
+            "pointer": "/nodes/47/matrix"
+          },
+          {
+            "code": "NODE_MATRIX_DEFAULT",
+            "message": "Do not specify default transform matrix.",
+            "severity": 2,
+            "pointer": "/nodes/48/matrix"
+          },
+          {
+            "code": "NODE_MATRIX_DEFAULT",
+            "message": "Do not specify default transform matrix.",
+            "severity": 2,
+            "pointer": "/nodes/50/matrix"
+          },
+          {
+            "code": "NODE_MATRIX_DEFAULT",
+            "message": "Do not specify default transform matrix.",
+            "severity": 2,
+            "pointer": "/nodes/51/matrix"
+          },
+          {
+            "code": "NODE_MATRIX_DEFAULT",
+            "message": "Do not specify default transform matrix.",
+            "severity": 2,
+            "pointer": "/nodes/52/matrix"
+          },
+          {
+            "code": "NODE_MATRIX_DEFAULT",
+            "message": "Do not specify default transform matrix.",
+            "severity": 2,
+            "pointer": "/nodes/54/matrix"
+          },
+          {
+            "code": "NODE_MATRIX_DEFAULT",
+            "message": "Do not specify default transform matrix.",
+            "severity": 2,
+            "pointer": "/nodes/55/matrix"
+          },
+          {
+            "code": "NODE_MATRIX_DEFAULT",
+            "message": "Do not specify default transform matrix.",
+            "severity": 2,
+            "pointer": "/nodes/56/matrix"
+          },
+          {
+            "code": "NODE_MATRIX_DEFAULT",
+            "message": "Do not specify default transform matrix.",
+            "severity": 2,
+            "pointer": "/nodes/58/matrix"
+          },
+          {
+            "code": "NODE_MATRIX_DEFAULT",
+            "message": "Do not specify default transform matrix.",
+            "severity": 2,
+            "pointer": "/nodes/59/matrix"
+          },
+          {
+            "code": "NODE_MATRIX_DEFAULT",
+            "message": "Do not specify default transform matrix.",
+            "severity": 2,
+            "pointer": "/nodes/60/matrix"
+          },
+          {
+            "code": "NODE_EMPTY",
+            "message": "Empty node encountered.",
+            "severity": 2,
+            "pointer": "/nodes/4"
+          },
+          {
+            "code": "NODE_EMPTY",
+            "message": "Empty node encountered.",
+            "severity": 2,
+            "pointer": "/nodes/6"
+          },
+          {
+            "code": "NODE_EMPTY",
+            "message": "Empty node encountered.",
+            "severity": 2,
+            "pointer": "/nodes/8"
+          },
+          {
+            "code": "NODE_EMPTY",
+            "message": "Empty node encountered.",
+            "severity": 2,
+            "pointer": "/nodes/11"
+          },
+          {
+            "code": "NODE_EMPTY",
+            "message": "Empty node encountered.",
+            "severity": 2,
+            "pointer": "/nodes/12"
+          },
+          {
+            "code": "NODE_EMPTY",
+            "message": "Empty node encountered.",
+            "severity": 2,
+            "pointer": "/nodes/15"
+          },
+          {
+            "code": "NODE_EMPTY",
+            "message": "Empty node encountered.",
+            "severity": 2,
+            "pointer": "/nodes/17"
+          },
+          {
+            "code": "NODE_EMPTY",
+            "message": "Empty node encountered.",
+            "severity": 2,
+            "pointer": "/nodes/20"
+          },
+          {
+            "code": "NODE_EMPTY",
+            "message": "Empty node encountered.",
+            "severity": 2,
+            "pointer": "/nodes/21"
+          },
+          {
+            "code": "NODE_EMPTY",
+            "message": "Empty node encountered.",
+            "severity": 2,
+            "pointer": "/nodes/24"
+          },
+          {
+            "code": "NODE_EMPTY",
+            "message": "Empty node encountered.",
+            "severity": 2,
+            "pointer": "/nodes/26"
+          },
+          {
+            "code": "NODE_EMPTY",
+            "message": "Empty node encountered.",
+            "severity": 2,
+            "pointer": "/nodes/29"
+          },
+          {
+            "code": "NODE_EMPTY",
+            "message": "Empty node encountered.",
+            "severity": 2,
+            "pointer": "/nodes/30"
+          },
+          {
+            "code": "NODE_EMPTY",
+            "message": "Empty node encountered.",
+            "severity": 2,
+            "pointer": "/nodes/33"
+          },
+          {
+            "code": "NODE_EMPTY",
+            "message": "Empty node encountered.",
+            "severity": 2,
+            "pointer": "/nodes/35"
+          },
+          {
+            "code": "NODE_EMPTY",
+            "message": "Empty node encountered.",
+            "severity": 2,
+            "pointer": "/nodes/38"
+          },
+          {
+            "code": "NODE_EMPTY",
+            "message": "Empty node encountered.",
+            "severity": 2,
+            "pointer": "/nodes/39"
+          },
+          {
+            "code": "NODE_EMPTY",
+            "message": "Empty node encountered.",
+            "severity": 2,
+            "pointer": "/nodes/41"
+          },
+          {
+            "code": "NODE_EMPTY",
+            "message": "Empty node encountered.",
+            "severity": 2,
+            "pointer": "/nodes/42"
+          },
+          {
+            "code": "NODE_EMPTY",
+            "message": "Empty node encountered.",
+            "severity": 2,
+            "pointer": "/nodes/43"
+          },
+          {
+            "code": "ACCESSOR_INDEX_TRIANGLE_DEGENERATE",
+            "message": "Indices accessor contains 3 degenerate triangles (out of 10130).",
+            "severity": 2,
+            "pointer": "/meshes/0/primitives/4/indices"
+          },
+          {
+            "code": "ACCESSOR_INDEX_TRIANGLE_DEGENERATE",
+            "message": "Indices accessor contains 27 degenerate triangles (out of 18974).",
+            "severity": 2,
+            "pointer": "/meshes/1/primitives/0/indices"
+          },
+          {
+            "code": "ACCESSOR_INDEX_TRIANGLE_DEGENERATE",
+            "message": "Indices accessor contains 3 degenerate triangles (out of 18066).",
+            "severity": 2,
+            "pointer": "/meshes/1/primitives/1/indices"
+          },
+          {
+            "code": "ACCESSOR_INDEX_TRIANGLE_DEGENERATE",
+            "message": "Indices accessor contains 19 degenerate triangles (out of 18426).",
+            "severity": 2,
+            "pointer": "/meshes/2/primitives/1/indices"
+          },
+          {
+            "code": "ACCESSOR_INDEX_TRIANGLE_DEGENERATE",
+            "message": "Indices accessor contains 18 degenerate triangles (out of 18418).",
+            "severity": 2,
+            "pointer": "/meshes/3/primitives/1/indices"
+          },
+          {
+            "code": "ACCESSOR_INDEX_TRIANGLE_DEGENERATE",
+            "message": "Indices accessor contains 10 degenerate triangles (out of 2090).",
+            "severity": 2,
+            "pointer": "/meshes/4/primitives/0/indices"
+          },
+          {
+            "code": "ACCESSOR_INDEX_TRIANGLE_DEGENERATE",
+            "message": "Indices accessor contains 8 degenerate triangles (out of 6512).",
+            "severity": 2,
+            "pointer": "/meshes/4/primitives/1/indices"
+          },
+          {
+            "code": "ACCESSOR_INDEX_TRIANGLE_DEGENERATE",
+            "message": "Indices accessor contains 10 degenerate triangles (out of 2090).",
+            "severity": 2,
+            "pointer": "/meshes/5/primitives/0/indices"
+          },
+          {
+            "code": "ACCESSOR_INDEX_TRIANGLE_DEGENERATE",
+            "message": "Indices accessor contains 8 degenerate triangles (out of 6512).",
+            "severity": 2,
+            "pointer": "/meshes/5/primitives/1/indices"
+          }
+        ],
+        "truncated": false
+      }
+    },
+    {
+      "file": "meshes/base.gltf",
+      "issues": {
+        "numErrors": 0,
+        "numWarnings": 0,
+        "numInfos": 1,
+        "numHints": 0,
+        "messages": [
+          {
+            "code": "ACCESSOR_INDEX_TRIANGLE_DEGENERATE",
+            "message": "Indices accessor contains 3 degenerate triangles (out of 10130).",
+            "severity": 2,
+            "pointer": "/meshes/0/primitives/4/indices"
+          }
+        ],
+        "truncated": false
+      }
+    },
+    {
+      "file": "meshes/calf.gltf",
+      "issues": {
+        "numErrors": 0,
+        "numWarnings": 0,
+        "numInfos": 2,
+        "numHints": 0,
+        "messages": [
+          {
+            "code": "ACCESSOR_INDEX_TRIANGLE_DEGENERATE",
+            "message": "Indices accessor contains 10 degenerate triangles (out of 2090).",
+            "severity": 2,
+            "pointer": "/meshes/0/primitives/0/indices"
+          },
+          {
+            "code": "ACCESSOR_INDEX_TRIANGLE_DEGENERATE",
+            "message": "Indices accessor contains 8 degenerate triangles (out of 6512).",
+            "severity": 2,
+            "pointer": "/meshes/0/primitives/1/indices"
+          }
+        ],
+        "truncated": false
+      }
+    },
+    {
+      "file": "meshes/calf_mirror.gltf",
+      "issues": {
+        "numErrors": 0,
+        "numWarnings": 0,
+        "numInfos": 2,
+        "numHints": 0,
+        "messages": [
+          {
+            "code": "ACCESSOR_INDEX_TRIANGLE_DEGENERATE",
+            "message": "Indices accessor contains 10 degenerate triangles (out of 2090).",
+            "severity": 2,
+            "pointer": "/meshes/0/primitives/0/indices"
+          },
+          {
+            "code": "ACCESSOR_INDEX_TRIANGLE_DEGENERATE",
+            "message": "Indices accessor contains 8 degenerate triangles (out of 6512).",
+            "severity": 2,
+            "pointer": "/meshes/0/primitives/1/indices"
+          }
+        ],
+        "truncated": false
+      }
+    },
+    {
+      "file": "meshes/foot.gltf",
+      "issues": {
+        "numErrors": 0,
+        "numWarnings": 0,
+        "numInfos": 0,
+        "numHints": 0,
+        "messages": [],
+        "truncated": false
+      }
+    },
+    {
+      "file": "meshes/hip.gltf",
+      "issues": {
+        "numErrors": 0,
+        "numWarnings": 0,
+        "numInfos": 2,
+        "numHints": 0,
+        "messages": [
+          {
+            "code": "ACCESSOR_INDEX_TRIANGLE_DEGENERATE",
+            "message": "Indices accessor contains 27 degenerate triangles (out of 18974).",
+            "severity": 2,
+            "pointer": "/meshes/0/primitives/0/indices"
+          },
+          {
+            "code": "ACCESSOR_INDEX_TRIANGLE_DEGENERATE",
+            "message": "Indices accessor contains 3 degenerate triangles (out of 18066).",
+            "severity": 2,
+            "pointer": "/meshes/0/primitives/1/indices"
+          }
+        ],
+        "truncated": false
+      }
+    },
+    {
+      "file": "meshes/thigh.gltf",
+      "issues": {
+        "numErrors": 0,
+        "numWarnings": 0,
+        "numInfos": 1,
+        "numHints": 0,
+        "messages": [
+          {
+            "code": "ACCESSOR_INDEX_TRIANGLE_DEGENERATE",
+            "message": "Indices accessor contains 19 degenerate triangles (out of 18426).",
+            "severity": 2,
+            "pointer": "/meshes/0/primitives/1/indices"
+          }
+        ],
+        "truncated": false
+      }
+    },
+    {
+      "file": "meshes/thigh_mirror.gltf",
+      "issues": {
+        "numErrors": 0,
+        "numWarnings": 0,
+        "numInfos": 1,
+        "numHints": 0,
+        "messages": [
+          {
+            "code": "ACCESSOR_INDEX_TRIANGLE_DEGENERATE",
+            "message": "Indices accessor contains 18 degenerate triangles (out of 18418).",
+            "severity": 2,
+            "pointer": "/meshes/0/primitives/1/indices"
+          }
+        ],
+        "truncated": false
+      }
+    }
+  ],
+  "note": "Informational findings retain source degenerate triangles and empty URDF sensor/collision nodes. No browser rendering, self-collision, or physical dynamics test was performed."
+}

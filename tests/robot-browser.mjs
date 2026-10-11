@@ -1,0 +1,100 @@
+import { chromium, expect } from '@playwright/test';
+import assert from 'node:assert/strict';
+import sharp from 'sharp';
+import { createHash } from 'node:crypto';
+const hash = buffer => createHash('sha256').update(buffer).digest('hex');
+const browser = await chromium.launch({ channel: 'chrome', headless: true });
+try {
+  const context = await browser.newContext({ viewport: { width: 1536, height: 760 } });
+  const page = await context.newPage();
+  const errors = [];
+  page.on('pageerror', e => errors.push(e.message));
+  let releaseModel;
+  const modelGate = new Promise(resolve => { releaseModel = resolve; });
+  await page.route('**/go2-seated.gltf', async route => { await modelGate; await route.continue(); });
+  await page.goto('http://localhost:4173/', { waitUntil: 'domcontentloaded' });
+  const robot = page.locator('[data-hero-robot]');
+  await expect(robot).toHaveAttribute('data-robot-state', 'loading');
+  await expect(robot.locator('.robot-static')).toBeHidden();
+  await page.waitForTimeout(500);
+  await expect(robot.locator('.robot-static')).toBeHidden();
+  await page.screenshot({ path: 'artifacts/robot-loading-no-flash.png' });
+  releaseModel();
+  await expect(robot).toHaveAttribute('data-robot-state', 'ready', { timeout: 20000 });
+  await expect(robot.locator('.robot-static')).toBeHidden();
+  await expect(page.locator('.neck-canvas, [data-open-viewer], #robot-viewer')).toHaveCount(0);
+  const backdrop = robot.locator('.robot-backdrop');
+  const backgroundState = () => backdrop.evaluate(image => ({ src: image.src, style: image.getAttribute('style'), rect: JSON.stringify(image.getBoundingClientRect()) }));
+  const backgroundBefore = await backgroundState();
+  const wallClip = { x: 1400, y: 170, width: 100, height: 220 };
+  const wallBefore = await sharp(await page.screenshot({ clip: wallClip })).raw().toBuffer();
+  await page.mouse.move(10, 180);
+  await expect.poll(async () => Number((await robot.getAttribute('data-robot-gaze')).split(',')[0])).toBeLessThan(-.9);
+  const leftGaze = await robot.locator('canvas').screenshot();
+  await page.mouse.move(1520, 550);
+  await expect.poll(async () => Number((await robot.getAttribute('data-robot-gaze')).split(',')[0])).toBeGreaterThan(.45);
+  const rightGaze = await robot.locator('canvas').screenshot();
+  assert.notEqual(hash(leftGaze), hash(rightGaze), 'Head genuinely changes appearance in 3D');
+  const wallAfter = await sharp(await page.screenshot({ clip: wallClip })).raw().toBuffer();
+  assert.equal(hash(wallBefore), hash(wallAfter), 'Visible wall stays pixel-identical while robot follows cursor');
+  assert.deepEqual(backgroundBefore, await backgroundState(), 'Architectural image and layout stay unchanged');
+  assert.ok(Number(await robot.getAttribute('data-robot-facing')) > .9);
+  await expect(robot).toHaveAttribute('data-robot-pose', 'standing', { timeout: 15000 });
+  await expect(robot).toHaveAttribute('data-robot-phase', 'hold', { timeout: 12000 });
+  await expect(robot).toHaveAttribute('data-robot-pose', 'resting', { timeout: 15000 });
+  await expect(robot).toHaveAttribute('data-robot-phase', 'hold', { timeout: 12000 });
+  await page.locator('[data-robot-auto]').click();
+  const paused = await robot.getAttribute('data-robot-pose');
+  await page.waitForTimeout(8000);
+  await expect(robot).toHaveAttribute('data-robot-pose', paused);
+  await page.locator('button[data-robot-pose="seated"]').click();
+  await expect(robot).toHaveAttribute('data-robot-phase', 'transition');
+  await expect(robot).toHaveAttribute('data-robot-phase', 'hold', { timeout: 12000 });
+  for (const pose of ['seated', 'standing', 'resting']) {
+    if (pose !== 'seated') {
+      await page.locator(`button[data-robot-pose="${pose}"]`).click();
+      await expect(robot).toHaveAttribute('data-robot-phase', 'hold', { timeout: 12000 });
+    }
+    const [x, y] = (await robot.getAttribute('data-robot-head-origin')).split(',').map(Number);
+    const mount = await robot.getAttribute('data-robot-neck-mount');
+    await page.mouse.move(x, y);
+    await expect.poll(async () => Math.max(...(await robot.getAttribute('data-robot-gaze')).split(',').map(value => Math.abs(Number(value))))).toBeLessThan(.005);
+    await page.screenshot({ path: `artifacts/robot-aligned-${pose}.png` });
+    for (const [dx, dy] of [[-250, 0], [250, 0], [0, -120], [0, 120]]) {
+      await page.mouse.move(x + dx, y + dy);
+      await page.waitForTimeout(550);
+      const [pitch, yaw, roll] = (await robot.getAttribute('data-robot-head-angles')).split(',').map(Number);
+      assert.equal(roll, 0, `${pose}: no head roll`);
+      if (dx) assert.equal(Math.sign(yaw), -Math.sign(dx), `${pose}: yaw follows horizontal cursor`);
+      if (dy) assert.equal(Math.sign(pitch), Math.sign(dy), `${pose}: pitch follows vertical cursor`);
+      assert.equal(await robot.getAttribute('data-robot-neck-mount'), mount, `${pose}: cursor cannot slide the neck mount`);
+      assert.ok(Number(await robot.getAttribute('data-robot-facing')) > .9);
+    }
+  }
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  const still = await robot.locator('canvas').screenshot();
+  await page.mouse.move(15, 180); await page.waitForTimeout(500);
+  assert.equal(hash(still), hash(await robot.locator('canvas').screenshot()), 'Reduced motion freezes robot');
+  await page.reload({ waitUntil: 'networkidle' });
+  await expect(robot).toHaveAttribute('data-robot-state', 'ready', { timeout: 20000 });
+  await expect(robot).toHaveAttribute('data-robot-gaze', '0.000,0.000');
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.evaluate(() => document.dispatchEvent(new PointerEvent('pointermove', { clientX: 10, clientY: 400, pointerType: 'touch' })));
+  await page.waitForTimeout(300);
+  await expect(robot).toHaveAttribute('data-robot-gaze', '0.000,0.000');
+  await robot.locator('canvas').evaluate(canvas => canvas.getContext('webgl2').getExtension('WEBGL_lose_context').loseContext());
+  await expect(robot).toHaveAttribute('data-robot-state', 'static');
+  await expect(robot.locator('.robot-static')).toBeVisible();
+  const fallback = await context.newPage();
+  await fallback.addInitScript(() => {
+    const original = HTMLCanvasElement.prototype.getContext;
+    HTMLCanvasElement.prototype.getContext = function(type, ...args) { return type.startsWith('webgl') ? null : original.call(this, type, ...args); };
+  });
+  await fallback.goto('http://localhost:4173/', { waitUntil: 'networkidle' });
+  await expect(fallback.locator('[data-hero-robot]')).toHaveAttribute('data-robot-state', 'static');
+  await expect(fallback.locator('.robot-static')).toBeVisible();
+  await fallback.locator('.hero-actions .button').click();
+  await expect(fallback).toHaveURL(/\/solutions\/$/);
+  assert.deepEqual(errors, []);
+  console.log('PASS: no old-image loading flash, centered head-relative gaze in every pose, no roll or mount drift, pixel-identical wall, automatic/manual poses, pause, reduced motion, touch, and WebGL fallbacks.');
+} finally { await browser.close(); }

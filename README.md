@@ -1,47 +1,44 @@
-# Roboking: Intelligence in Motion
+# RoboKing: Intelligence in Motion
 
-A complete, responsive company website built with HTML, CSS and JavaScript.
+A four-page robotics company site: Home, Solutions, Innovation Lab and Contact.
 
-## Run locally
+## Development
 
-Requires Node.js 22 or later. Run `npm install`, then `npm run dev`.
-The local preview is available at http://localhost:4173.
+Requires Node.js 22+ and Google Chrome for browser QA.
 
-`dist/` is the complete deployable site. There is no runtime framework or build step.
+- `npm install`
+- `npm run build`: generate the four static pages and bundle the articulated Three.js hero.
+- `npm run dev`: serve `dist/` at http://localhost:4173.
+- `npm test`: calculator and robot pose/grounding unit tests.
+- `npm run test:browser`: interactions, accessibility, responsive layouts and images across all four pages.
+- `npm run test:framing`: all three robot poses remain in frame and the contact line stays below navigation at twelve screen sizes.
+- `npm run test:robot`: 3D gaze, unchanged background pixels, automatic/manual poses, pause, reduced motion and WebGL fallbacks.
 
-## Included
+Page source and shared header/footer are in `scripts/build-pages.mjs`. Shared behavior and styling are in `dist/app.js`, `dist/styles.css` and `dist/robot-scene.css`; calculator and enquiry modules are in `dist/lab.js` and `dist/contact.js`. Articulated robot rendering is in `src/hero-robot.js`, with deterministic motion math in `src/robot-motion.js`. Rebuild after editing templates or robot source. `dist/` is the complete deployable site; no server API or CDN is required.
 
-- Original quadruped, drone and robotic-arm concept imagery, optimized to WebP.
-- Supplied crown logo, with locally hosted typography.
-- SVG quadruped companion with cursor-tracking eyes, greeting animation and reduced-motion support.
-- Six keyboard-accessible robotics sector tabs.
-- Four working estimators: battery runtime, drivetrain speed, drone lift ratio, and electrical current.
-- Project brief builder with email draft, clipboard and text download.
-- Responsive navigation, accessible labels, native dialog and keyboard focus indicators.
+## Experience
 
-## Contact and content provenance
+- Ten distinct concept images, including the seated hero requested by the user: two front legs upright, two rear legs folded.
+- Dark graphite and warm metallic visual direction, supplied crown logo, local fonts and responsive navigation.
+- Home and Innovation Lab use a fully articulated 3D concept robot with custom ivory/graphite armor and a two-link optical neck. This is a 3D reinterpretation, not a pixel-identical reconstruction of the original AI photograph.
+- Seated, standing and folded-rest poses cycle automatically, with eased transitions and a grounded leg-chain solver. Manual pose buttons and an automatic-pose pause are available.
+- Independent quaternion-based head orientation follows the pointer and keeps the sensors directed toward the viewer. Subtle idle neck movements add variation; it does not spin its face away from the viewer or orbit the camera.
+- The architectural background is a separate static plate. No photo displacement, wall deformation, inset image frame, floating viewer, chatbot, dragging or zoom controls.
+- Reduced motion freezes animation; offscreen/hidden scenes pause. Touch does not hijack scrolling. Unsupported/lost WebGL shows the original static concept image.
+- Six-sector carousel automatically switches every six seconds. Clicking or keyboard navigation selects a field. Hover, keyboard focus, hidden tabs, explicit pause and reduced motion suspend automatic changes.
+- Four calculators: battery runtime, drivetrain speed, drone lift and electrical current. These are planning estimates, not safety validation.
+- Project brief preview, email draft, clipboard copy and text download. Nothing is sent automatically or persisted; the visitor sends through their email client.
 
-- Logo supplied by the user: `C:\Users\night\Downloads\rk\logo.jpeg`.
-- Email `sales@roboking.in` and phone `+91 96505 26625` verified from https://www.roboking.in/ and its public application bundle on 2026-10-10.
-- Location `Malerkotla, Punjab, India` explicitly confirmed by the user. The existing website listed New Delhi; the new design follows the user's corrected location. No street address was supplied.
-- Company positioning reflects the user brief and the current site's robotics and hardware sourcing description. No customer testimonials, certifications, deployment metrics or product specifications have been invented.
-- Generated images are marked as concept visualizations. Originals and prompt provenance are in `artwork/`.
+## Provenance
 
-## Form behaviour
-
-The form prepares an email draft addressed to Roboking. The visitor must send it through their email client. It does not claim to submit to a backend or retain personal information. A text download and clipboard option provide alternatives.
-
-## Verification
-
-- `npm test`: calculator tests, including invalid inputs and units.
-- `npm run test:browser`: Chrome desktop/mobile checks for all interactive features and overflow down to 320px. Requires Google Chrome.
-- Screenshots and accessibility results are written to the ignored `artifacts/` folder.
+- User logo: `C:\Users\night\Downloads\rk\logo.jpeg`.
+- `sales@roboking.in` and `+91 96505 26625` verified from https://www.roboking.in/ and its public application bundle on 2026-10-10.
+- Malerkotla, Punjab, India was explicitly confirmed by the user. No street address was supplied; none is invented.
+- No invented client records, testimonials, certifications, sales metrics or product specifications.
+- Images are clearly identified as concepts. PNG originals and exact generation prompts are in `artwork/`, including `PROMPTS-V3.md`. WebP copies are in `dist/assets/`.
+- The interactive concept adapts Unitree Go2 reference geometry under BSD-3-Clause with additional original armor, head and neck. The footer links the upstream license and Three.js MIT notice. No manufacture or endorsement claim is made. Earlier photo-warp and floating-viewer source is retained but not imported. See `artwork/MODEL-SOURCE.md`.
+- DM Sans, Space Grotesk and IBM Plex Mono fonts are locally hosted with SIL Open Font License notices.
 
 ## Hosting
 
-Site identity is tracked in `.openai/hosting.json`. The preview is owner-private.
-The existing roboking.in domain has not been changed.
-
-## Design and assets
-
-The original PNGs were generated with the built-in image-generation tool. The site uses optimized WebP copies from `dist/assets/`. Fonts are DM Sans, Space Grotesk and IBM Plex Mono, sourced from Google Fonts. Their SIL Open Font License notices are included with the assets.
+Existing identity and owner-private audience are retained in `.openai/hosting.json`. The roboking.in domain is not changed. Screenshots and deployment archives stay in ignored `artifacts/`.
