@@ -41,4 +41,6 @@ Page source and shared header/footer are in `scripts/build-pages.mjs`. Shared be
 
 ## Hosting
 
+Vercel uses `vercel.json` at the repository root: Framework Preset **Other** (`framework: null`), Build Command `npm run build`, Output Directory `dist`. Keep the Vercel Root Directory at the repository root. This is a static multi-page website, not a server function; `server.mjs` is only the local preview server. Do not deploy it as Express or point a catch-all rewrite at it. Push configuration changes to the connected production branch to trigger a new deployment.
+
 Existing identity and owner-private audience are retained in `.openai/hosting.json`. The roboking.in domain is not changed. Screenshots and deployment archives stay in ignored `artifacts/`.
